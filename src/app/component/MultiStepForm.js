@@ -35,6 +35,10 @@ const handleError = (errors) => {
     setFormError((prev) => ({...prev, ...errors}));
 };
 
+const clearError = (errors) => {
+    setFormError((prev) => ({...prev, ...errors}));
+}
+
 const Step = [FirstStep, SecondStep, ThirdStep, FormFinished][currentStep];
 
 const handleNextStep = () => {
@@ -52,6 +56,7 @@ return (
         <Step 
         formValue={formValue}
         errors={formError}
+        clearError={clearError}
         setFormValue={setFormValue}
         handleBackStep={handleBackStep} 
         handleNextStep={handleNextStep}

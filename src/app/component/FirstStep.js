@@ -1,8 +1,9 @@
 'use client';
 import React, { useState } from 'react';
+import { isStepOneValid } from '../utils/stepOneValidation';
 
 export const FirstStep = (props) => {
-  const { handleNextStep, errors, formValue, handleError, setFormValue } = props;
+  const { handleNextStep, errors, formValue, handleError, setFormValue, clearError } = props;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -10,6 +11,7 @@ export const FirstStep = (props) => {
       ...prev,
       [name]: value,
     }));
+    clearError(name)
   }
 
   const handleFormNextStep = () => {
@@ -40,7 +42,7 @@ export const FirstStep = (props) => {
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
             <p className="block text-sm font-semibold leading-4 text-[#334155]">First name <span className='text-red-500'>*</span></p>
             <input
-              className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
+              className={`${errors.firstName.lenght > ? "" : ""},`"w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"`}
               type="text"
               placeholder="Your first name"
               name="firstName"
@@ -88,24 +90,24 @@ export const FirstStep = (props) => {
   );
 };
 
-const isStepOneValid = (data) => {
-  const { firstName = '', lastName = '', username = '' } = data;
+// const isStepOneValid = (data) => {
+//   const { firstName = '', lastName = '', username = '' } = data;
   
-  const errors = {};
-  let isValid = true;
+//   const errors = {};
+//   let isValid = true;
 
-  if (firstName.length <= 0) {
-    errors.firstName = "Нэрээ оруулна уу";
-    isValid = false;
-  }
-  if (lastName.length <= 0) {
-    errors.lastName = "Овгоо оруулна уу.";
-    isValid = false;
-  }
-  if (username.length <= 0) {
-    errors.username = "Хэрэглэгчийн нэрээ оруулна уу";
-    isValid = false;
-  }
+//   if (firstName.length <= 0) {
+//     errors.firstName = "Нэрээ оруулна уу";
+//     isValid = false;
+//   }
+//   if (lastName.length <= 0) {
+//     errors.lastName = "Овгоо оруулна уу.";
+//     isValid = false;
+//   }
+//   if (username.length <= 0) {
+//     errors.username = "Хэрэглэгчийн нэрээ оруулна уу";
+//     isValid = false;
+//   }
 
-  return { isValid, errors };
-};
+//   return { isValid, errors };
+// };
