@@ -1,46 +1,111 @@
-import React from 'react'
-// import pic from '../picture/Main-1.png'
-// import MultiStepForm from 
+'use client';
+import React, { useState } from 'react';
 
 export const FirstStep = (props) => {
+  const { handleNextStep, errors, formValue, handleError, setFormValue } = props;
 
-    const {handleNextStep} = props
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValue((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  const handleFormNextStep = () => {
+    const { isValid, errors } = isStepOneValid(formValue);
+
+    if (isValid) {
+      handleNextStep();
+    } else {
+      handleError(errors);
+    }
+  }
 
   return (
-    <div className= 'bg-[#f3f4f6] h-screen w-screen flex justify-center items-center' >
+    <div className='bg-[#f3f4f6] h-screen w-screen flex justify-center items-center'>
       <div className="flex flex-col w-[480px] min-h-[655px] p-8 bg-white rounded-lg">
         <div className="flex flex-col w-[100%] h-[129px] justify-between mb-[30px]">
           <span className="h-[60px] w-[60px]">
-            {/* <img src={pic} alt="h"/> */}
-            <img src='../picture/Main-1.png'/>
+            <img src='../picture/Main-1.png' alt="Main-1" />
           </span>
           <h2 className="text-[26px] text-foreground font-semibold text-[#202124] mt-[8px]">
-          Join Us! 😎
+            Join Us! 😎
           </h2>
           <div className="text-[18px] whitespace-nowrap text-[#8E8E8E] mt-[8px]">
-          Please provide all current information accurately.
+            Please provide all current information accurately.
           </div>
         </div>
         <div className="w-[100%] h-[228px] flex flex-col justify-between">
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
-            <p className="block text-sm font-semibold leading-4 text-[#334155]">First name <span>*</span></p>
-            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]" type="Your first name" placeholder="Your first name"/>
+            <p className="block text-sm font-semibold leading-4 text-[#334155]">First name <span className='text-red-500'>*</span></p>
+            <input
+              className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
+              type="text"
+              placeholder="Your first name"
+              name="firstName"
+              value={formValue.firstName} 
+              onChange={handleChange}
+            />
+            {errors.firstName && <p className='text-red-500 mt-[8px]'>{errors.firstName}</p>} 
           </div>
-          <div className="flex flex-col justify-between h-[68px] w-[100%]">
-            <p className="block text-sm font-semibold leading-4 text-[#334155]">Last name <span>*</span></p>
-            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]" type="Your last name" placeholder="Your last name" />
+          <div className="flex flex-col justify-between h-[68px] w-[100%] mt-[25px]">
+            <label className="block text-sm font-semibold leading-4 text-[#334155]">Last name <span className='text-red-500'>*</span></label>
+            <input
+              className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
+              type="text"
+              placeholder="Your last name"
+              name="lastName"
+              value={formValue.lastName}  
+              onChange={handleChange}
+            />
+            {errors.lastName && <p className='text-red-500 mt-[8px]'>{errors.lastName}</p>} 
           </div>
-          <div className="flex flex-col justify-between h-[68px] w-[100%]">
-            <p className="block text-sm font-semibold leading-4 text-[#334155] font-[14px]">Username <span>*</span></p>
-            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]" type="Your username" placeholder="Your username"/>
+          <div className="flex flex-col justify-between h-[68px] w-[100%] mt-[25px]">
+            <p className="block text-sm font-semibold leading-4 text-[#334155] font-[14px]">Username <span className='text-red-500'>*</span></p>
+            <input
+              className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
+              type="text"
+              placeholder="Your username"
+              name="username"
+              value={formValue.username || ""} 
+              onChange={handleChange}
+            />
+            {errors.username && <p className='text-red-500 mt-[8px]'>{errors.username}</p>} 
           </div>
         </div>
         <div className="flex w-full gap-x-2 mt-auto">
-          <button onClick={handleNextStep} type="submit" className="flex flex-1 items-center justify-center h-[44px] gap-x-3 rounded-md bg-[#121316] text-white transition-all duration-300 hover:opacity-80">
-          Continue 1/3  
+          <button
+            onClick={handleFormNextStep}
+            type="submit"
+            className="flex flex-1 items-center justify-center h-[44px] gap-x-3 rounded-md bg-[#121316] text-white transition-all duration-300 hover:opacity-80"
+          >
+            Continue 1/3
           </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
+
+const isStepOneValid = (data) => {
+  const { firstName = '', lastName = '', username = '' } = data;
+  
+  const errors = {};
+  let isValid = true;
+
+  if (firstName.length <= 0) {
+    errors.firstName = "Нэрээ оруулна уу";
+    isValid = false;
+  }
+  if (lastName.length <= 0) {
+    errors.lastName = "Овгоо оруулна уу.";
+    isValid = false;
+  }
+  if (username.length <= 0) {
+    errors.username = "Хэрэглэгчийн нэрээ оруулна уу";
+    isValid = false;
+  }
+
+  return { isValid, errors };
+};

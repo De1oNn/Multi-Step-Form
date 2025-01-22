@@ -8,6 +8,32 @@ import { FormFinished } from "./FormFinished"
 
 const MultiStepForm = () => {
     const [currentStep, SetCurrentStep] = useState(0)
+    const [formValue, setFormValue] = useState({
+        firstName: "",
+        lastName: "",
+        userName: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        confirmPassword: "",
+        dateBirth: "",
+        profileImg: "",
+    })
+
+    const [formError, setFormError] = useState({
+        firstName: "",
+        lastName: "",
+        userName: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        confirmPassword: "",
+        dateBirth: "",
+        profileImg: "",
+    })
+const handleError = (errors) => {
+    setFormError((prev) => ({...prev, ...errors}));
+};
 
 const Step = [FirstStep, SecondStep, ThirdStep, FormFinished][currentStep];
 
@@ -23,7 +49,14 @@ const handleBackStep = () => {
 }
 return (
     <div>
-        <Step handleBackStep={handleBackStep} handleNextStep={handleNextStep}/>
+        <Step 
+        formValue={formValue}
+        errors={formError}
+        setFormValue={setFormValue}
+        handleBackStep={handleBackStep} 
+        handleNextStep={handleNextStep}
+        handleError={handleError}
+        />
     </div>
 )
 };

@@ -1,7 +1,25 @@
 import React from 'react'
 
 export const SecondStep = (props) => {
-  const {handleNextStep, handleBackStep} = props
+  const {handleNextStep, handleBackStep, errors, formValue, handleError, setFormValue} = props
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValue((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  const handleFormNextStep = () => {
+    const { isValid, errors } = isStepOneValid(formValue);
+
+    if (isValid) {
+      handleNextStep();
+    } else {
+      handleError(errors);
+    }
+  }
   return (
     <div className= 'bg-[#f3f4f6] h-screen w-screen flex justify-center items-center'>
       <div className="flex flex-col w-[480px] min-h-[655px] p-8 bg-white rounded-lg">
@@ -18,27 +36,88 @@ export const SecondStep = (props) => {
         </div>
         <div className="w-[100%] h-[308px] flex flex-col justify-between">
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
-            <p className="block text-sm font-semibold leading-4 text-[#334155]">Email <span>*</span></p>
-            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]" type="Your first name" placeholder="Your email"/>
+            <p className="block text-sm font-semibold leading-4 text-[#334155]">Email <span className='text-red-500'>*</span></p>
+            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
+            type="text"
+            name='email'
+             placeholder="Your email"
+             value={formValue.email}
+             onChange={handleChange}
+             />
+            {errors.email && <p className='text-red-500'>{errors.email}</p>} 
           </div>
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
-            <p className="block text-sm font-semibold leading-4 text-[#334155]">Phone number<span>*</span></p>
-            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]" type="Your last name" placeholder="Your phone number" />
+            <p className="block text-sm font-semibold leading-4 text-[#334155]">Phone number<span className='text-red-500'>*</span></p>
+            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
+            type="text"
+            name='phoneNumber'
+             placeholder="Your phone number"
+             value={formValue.phoneNumber}
+             onChange={handleChange}
+             />
+            {errors.phoneNumber && <p className='text-red-500'>{errors.phoneNumber}</p>} 
           </div>
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
-            <p className="block text-sm font-semibold leading-4 text-[#334155] font-[14px]">Password <span>*</span></p>
-            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]" type="Your username" placeholder="Your password"/>
+            <p className="block text-sm font-semibold leading-4 text-[#334155] font-[14px]">Password <span className='text-red-500'>*</span></p>
+            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
+            type="password"
+            name='password'
+            placeholder="Your password"
+            value={formValue.password}
+            onChange={handleChange}
+            />
+            {errors.password && <p className='text-red-500'>{errors.password}</p>} 
           </div>
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
-            <p className="block text-sm font-semibold leading-4 text-[#334155] font-[14px]">Confirm password <span>*</span></p>
-            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]" type="Your username" placeholder="Confirm password"/>
+            <p className="block text-sm font-semibold leading-4 text-[#334155] font-[14px]">Confirm password <span className='text-red-500'>*</span></p>
+            <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]" 
+            type="password"
+            name='confirmPassword'
+            placeholder="Confirm password"
+            value={formValue.confirmPassword || ""}
+            onChange={handleChange}
+            />
+            {errors.confirmPassword && <p className='text-red-500'>{errors.confirmPassword}</p>} 
           </div>
         </div>
         <div className='flex w-full gap-x-2 mt-auto'>
           <button onClick={handleBackStep} className='flex items-center justify-center w-32 gap-x-3 rounded-md border border-[#CBD5E1] transition-all duration-300 hover:bg-gray-100' > <span>Back</span> </button>
-          <button onClick={handleNextStep} className='flex flex-1 items-center justify-center h-[44px] gap-x-3 rounded-md bg-[#121316] text-white transition-all duration-300 hover:opacity-80'> <span>Continue 2/3</span> </button>
+          <button 
+          onClick={handleFormNextStep} 
+          type="submit"
+          className='flex flex-1 items-center justify-center h-[44px] gap-x-3 rounded-md bg-[#121316] text-white transition-all duration-300 hover:opacity-80'
+          >
+            Continue 2/3
+          </button>
         </div>
       </div>
     </div>
   )
 }
+const isStepOneValid = (data) => {
+  const { email = '', phoneNumber = '', password = '', confirmPassword = ''} = data;
+  
+  const errors = {};
+  let isValid = true;
+
+  if (email.length <= 0) {
+    errors.email = "Мэйл хаягаа оруулна уу";
+    isValid = false;
+  }
+  if (phoneNumber.length = 0) {
+    errors.phoneNumber = "Утасны дугаараа оруулна уу.";
+    isValid = false;
+  }
+   else if (phoneNumber.length <= 1) {
+    errors.phoneNumber = "hello";
+  }
+  if (password.length <= 0) {
+    errors.password = "Нууц үгээ оруулна уу";
+    isValid = false;
+  }
+  if (confirmPassword.length <= 0) {
+    errors.confirmPassword = "Нууц үгээ давтаж оруулна уу"
+  }
+
+  return { isValid, errors };
+};
