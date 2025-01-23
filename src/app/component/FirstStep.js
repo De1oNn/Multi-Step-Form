@@ -18,6 +18,12 @@ export const FirstStep = (props) => {
     const { isValid, errors } = isStepOneValid(formValue);
 
     if (isValid) {
+      const localData = {
+        ...formValue,
+        currentstep: 1,
+      };
+      localStorage.setItem("formData", JSON.stringify(localData))
+
       handleNextStep();
     } else {
       handleError(errors);
@@ -40,7 +46,7 @@ export const FirstStep = (props) => {
         </div>
         <div className="w-[100%] h-[228px] flex flex-col justify-between">
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
-            <p className="block text-sm font-semibold leading-4 text-[#334155]">First name <span className='text-red-500'>*</span></p>
+            <p className="block text-sm font-semibold leading-4 text-[#334155] mb-[5px]">First name <span className='text-red-500'>*</span></p>
             <input
               className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
               type="text"
@@ -49,10 +55,10 @@ export const FirstStep = (props) => {
               value={formValue.firstName} 
               onChange={handleChange}
             />
-            {errors.firstName && <p className='text-red-500 mt-[8px]'>{errors.firstName}</p>} 
+            {errors.firstName && <p className='text-red-500 mt-[5px]'>{errors.firstName}</p>} 
           </div>
           <div className="flex flex-col justify-between h-[68px] w-[100%] mt-[25px]">
-            <label className="block text-sm font-semibold leading-4 text-[#334155]">Last name <span className='text-red-500'>*</span></label>
+            <label className="block text-sm font-semibold leading-4 text-[#334155] mb-[5px]">Last name <span className='text-red-500'>*</span></label>
             <input
               className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
               type="text"
@@ -61,10 +67,10 @@ export const FirstStep = (props) => {
               value={formValue.lastName}  
               onChange={handleChange}
             />
-            {errors.lastName && <p className='text-red-500 mt-[8px]'>{errors.lastName}</p>} 
+            {errors.lastName && <p className='text-red-500 mt-[5px]'>{errors.lastName}</p>} 
           </div>
           <div className="flex flex-col justify-between h-[68px] w-[100%] mt-[25px]">
-            <p className="block text-sm font-semibold leading-4 text-[#334155] font-[14px]">Username <span className='text-red-500'>*</span></p>
+            <p className="block text-sm font-semibold leading-4 text-[#334155] font-[14px] mb-[5px]">Username <span className='text-red-500'>*</span></p>
             <input
               className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
               type="text"
@@ -73,7 +79,7 @@ export const FirstStep = (props) => {
               value={formValue.username || ""} 
               onChange={handleChange}
             />
-            {errors.username && <p className='text-red-500 mt-[8px]'>{errors.username}</p>} 
+            {errors.username && <p className='text-red-500 mt-[5px]'>{errors.username}</p>} 
           </div>
         </div>
         <div className="flex w-full gap-x-2 mt-auto">

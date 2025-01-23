@@ -15,14 +15,14 @@ export const isTwoOneValid = (data) => {
       errors.phoneNumber = "Утасны дугаараа оруулна уу.";
       isValid = false;
     }
-     else if (phoneNumber.length !== 8) {
+     else if (phoneNumber.length !== 8 || isNaN(phoneNumber)) {
       errors.phoneNumber = "8 оронтой дугаар оруулна уу.";
       isValid = false;  
     }
     if (password.length <= 0) {
       errors.password = "Нууц үгээ оруулна уу";
       isValid = false;
-    } else if (password.length !== 6) {
+    } else if (password.length !== 6 || isNaN(password)) {
       errors.password = "6 оронтой тоо оруулна уу";
       isValid = false;
     }

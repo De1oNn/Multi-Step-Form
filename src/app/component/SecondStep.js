@@ -17,6 +17,11 @@ export const SecondStep = (props) => {
     const { isValid, errors } = isTwoOneValid(formValue);
 
     if (isValid) {
+      const localData = {
+        ...formValue,
+        currentstep: 2
+      };
+      localStorage.setItem("formData", JSON.stringify(localData))
       handleNextStep();
     } else {
       handleError(errors);
@@ -36,9 +41,9 @@ export const SecondStep = (props) => {
             Please provide all current information accurately.
           </div>
         </div>
-        <div className="w-[100%] h-[308px] flex flex-col justify-between">
+        <div className="w-[100%] h-[338px] flex flex-col justify-between">
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
-            <p className="block text-sm font-semibold leading-4 text-[#334155]">Email <span className='text-red-500'>*</span></p>
+            <p className="block text-sm font-semibold leading-4 text-[#334155] mb-[5px]">Email <span className='text-red-500'>*</span></p>
             <input className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
             type="text"
             name='email'
@@ -57,7 +62,7 @@ export const SecondStep = (props) => {
              value={formValue.phoneNumber}
              onChange={handleChange}
              />
-            {errors.phoneNumber && <p className='text-red-500'>{errors.phoneNumber}</p>} 
+            {errors.phoneNumber && <p className='text-red-500 mt-[5px]'>{errors.phoneNumber}</p>} 
           </div>
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
             <p className="block text-sm font-semibold leading-4 text-[#334155] font-[14px]">Password <span className='text-red-500'>*</span></p>
@@ -68,7 +73,7 @@ export const SecondStep = (props) => {
             value={formValue.password}
             onChange={handleChange}
             />
-            {errors.password && <p className='text-red-500'>{errors.password}</p>} 
+            {errors.password && <p className='text-red-500 mt-[5px]'>{errors.password}</p>} 
           </div>
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
             <p className="block text-sm font-semibold leading-4 text-[#334155] font-[14px]">Confirm password <span className='text-red-500'>*</span></p>
@@ -79,7 +84,7 @@ export const SecondStep = (props) => {
             value={formValue.confirmPassword || ""}
             onChange={handleChange}
             />
-            {errors.confirmPassword && <p className='text-red-500'>{errors.confirmPassword}</p>} 
+            {errors.confirmPassword && <p className='text-red-500 mt-[5px]'>{errors.confirmPassword}</p>} 
           </div>
         </div>
         <div className='flex w-full gap-x-2 mt-auto'>
