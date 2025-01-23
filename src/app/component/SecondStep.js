@@ -2,7 +2,7 @@ import React from 'react'
 import { isTwoOneValid } from '../utils/stepTwoValidation'
 
 export const SecondStep = (props) => {
-  const {handleNextStep, handleBackStep, errors, formValue, handleError, setFormValue} = props
+  const {handleNextStep, handleBackStep, errors, formValue, handleError, setFormValue, clearError} = props
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -10,6 +10,7 @@ export const SecondStep = (props) => {
       ...prev,
       [name]: value,
     }));
+    clearError(name)
   }
 
   const handleFormNextStep = () => {

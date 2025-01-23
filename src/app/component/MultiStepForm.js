@@ -35,8 +35,8 @@ const handleError = (errors) => {
     setFormError((prev) => ({...prev, ...errors}));
 };
 
-const clearError = (errors) => {
-    setFormError((prev) => ({...prev, ...errors}));
+const clearError = (name) => {
+    setFormError((prev) => ({...prev, [name]: "" }));
 }
 
 const Step = [FirstStep, SecondStep, ThirdStep, FormFinished][currentStep];

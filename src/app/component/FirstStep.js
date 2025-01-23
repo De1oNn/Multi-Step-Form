@@ -42,7 +42,7 @@ export const FirstStep = (props) => {
           <div className="flex flex-col justify-between h-[68px] w-[100%]">
             <p className="block text-sm font-semibold leading-4 text-[#334155]">First name <span className='text-red-500'>*</span></p>
             <input
-              className={`${errors.firstName.lenght > ? "" : ""},`"w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"`}
+              className="w-full p-3 text-base leading-5 rounded-md outline outline-[#CBD5E1] focus:outline-[#0CA5E9] text-[#121316]"
               type="text"
               placeholder="Your first name"
               name="firstName"
