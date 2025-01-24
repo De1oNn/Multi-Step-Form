@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { isStepOneValid } from '../utils/stepOneValidation';
+import { motion } from 'framer-motion';
 
 export const FirstStep = (props) => {
   const { handleNextStep, errors, formValue, handleError, setFormValue, clearError } = props;
@@ -20,9 +21,12 @@ export const FirstStep = (props) => {
     if (isValid) {
       const localData = {
         ...formValue,
-        currentstep: 1,
+        currentStep: 1,
       };
       localStorage.setItem("formData", JSON.stringify(localData))
+
+      console.log("in first step", formValue);
+      
 
       handleNextStep();
     } else {
@@ -31,6 +35,11 @@ export const FirstStep = (props) => {
   }
 
   return (
+    <motion.div
+    initial={{ opacity: 0, x: 100 }} // Initial state (off-screen and invisible)
+    animate={{ opacity: 1, x: 0 }}    // Final state (on-screen and visible)
+    transition={{ duration: 1 }}      // Duration of animation (1 second)
+    >
     <div className='bg-[#f3f4f6] h-screen w-screen flex justify-center items-center'>
       <div className="flex flex-col w-[480px] min-h-[655px] p-8 bg-white rounded-lg">
         <div className="flex flex-col w-[100%] h-[129px] justify-between mb-[30px]">
@@ -93,6 +102,7 @@ export const FirstStep = (props) => {
         </div>
       </div>
     </div>
+    </motion.div>
   );
 };
 

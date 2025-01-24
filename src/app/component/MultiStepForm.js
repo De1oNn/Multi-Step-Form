@@ -55,7 +55,9 @@ const handleBackStep = () => {
 useEffect(() => {
     const data = localStorage.getItem("formData")
     if (data) {
-        setFormValue(JSON.parse(data))
+        const parsedData = JSON.parse(data)
+        SetCurrentStep(parsedData.currentStep)
+        setFormValue(parsedData)
     }
 }, []);
 

@@ -1,6 +1,7 @@
 import React from 'react'
 
 export const FormFinished = () => {
+  localStorage.removeItem("formData");
   return (
     <div className='bg-[#f3f4f6] h-screen w-screen flex justify-center items-center '>
       <div className='h-[207px] w-[480px] bg-[#FFF] p-[32px] rounded-[8px] flex flex-col justify-center '>
