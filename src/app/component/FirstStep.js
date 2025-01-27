@@ -24,10 +24,7 @@ export const FirstStep = (props) => {
         currentStep: 1,
       };
       localStorage.setItem("formData", JSON.stringify(localData))
-
-      console.log("in first step", formValue);
-      
-
+      // console.log("in first step", formValue);
       handleNextStep();
     } else {
       handleError(errors);
@@ -36,9 +33,9 @@ export const FirstStep = (props) => {
 
   return (
     <motion.div
-    initial={{ opacity: 0, x: 100 }} // Initial state (off-screen and invisible)
-    animate={{ opacity: 1, x: 0 }}    // Final state (on-screen and visible)
-    transition={{ duration: 1 }}      // Duration of animation (1 second)
+    initial={{ opacity: 0, x: 100 }} 
+    animate={{ opacity: 1, x: 0 }}    
+    transition={{ duration: 1 }}      
     >
     <div className='bg-[#f3f4f6] h-screen w-screen flex justify-center items-center'>
       <div className="flex flex-col w-[480px] min-h-[655px] p-8 bg-white rounded-lg">
@@ -105,25 +102,3 @@ export const FirstStep = (props) => {
     </motion.div>
   );
 };
-
-// const isStepOneValid = (data) => {
-//   const { firstName = '', lastName = '', username = '' } = data;
-  
-//   const errors = {};
-//   let isValid = true;
-
-//   if (firstName.length <= 0) {
-//     errors.firstName = "Нэрээ оруулна уу";
-//     isValid = false;
-//   }
-//   if (lastName.length <= 0) {
-//     errors.lastName = "Овгоо оруулна уу.";
-//     isValid = false;
-//   }
-//   if (username.length <= 0) {
-//     errors.username = "Хэрэглэгчийн нэрээ оруулна уу";
-//     isValid = false;
-//   }
-
-//   return { isValid, errors };
-// };

@@ -1,78 +1,72 @@
-  "use client"
-  import React, { useState, useEffect } from 'react';
-  import { isStepThreeValid } from '../utils/stepThreeValidation.js'
-  import { motion } from 'framer-motion';
+"use client"
+import React, { useState, useEffect } from 'react';
+import { isStepThreeValid } from '../utils/stepThreeValidation.js';
+import { motion } from 'framer-motion';
 
-  export const ThirdStep = (props) => {
-    const { handleNextStep, handleBackStep, formValue, setFormValue, errors, handleError, clearError } = props;
+export const ThirdStep = (props) => {
+  const { handleNextStep, handleBackStep, formValue, setFormValue, errors, handleError, clearError } = props;
 
-    const [imagePreview, setImagePreview] = useState(null);
-
-    console.log(formValue);
-    
+  const [imagePreview, setImagePreview] = useState(null);
 
 
-    const handleChange = (event) => {
-      const { name, value } = event.target;
+  useEffect(() => {
+    const savedFormValue = JSON.parse(localStorage.getItem('formData'));
+    if (savedFormValue && savedFormValue.profileImg) {
+      setImagePreview(savedFormValue.profileImg); 
       setFormValue((prev) => ({
         ...prev,
-        [name]: value,
+        profileImg: savedFormValue.profileImg, 
       }));
-      clearError(name);
-    };
+    }
+  }, [setFormValue]);
 
-    const handleProfileImgChange = (event) => {
-      const { files } = event.target;
-      console.log(files[0]);
-      
-      if (files && files[0]) {
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValue((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    clearError(name);
+  };
 
-        const file = files[0];
-
-
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const imageUrl = reader.result;
-          console.log(imageUrl);
-          
-          setImagePreview(imageUrl); 
-
-      
-        };
-        reader.readAsDataURL(file);
-        console.log(file);
-        
-         setFormValue((prev) => ({
+  const handleProfileImgChange = (event) => {
+    const { files } = event.target;
+    if (files && files[0]) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageUrl = reader.result; 
+        setImagePreview(imageUrl); 
+        setFormValue((prev) => ({
           ...prev,
-          profileImg: file,
+          profileImg: imageUrl, 
         }));
-
         clearError('profileImg');
-      }
-    };
+      };
+      reader.readAsDataURL(file); 
+    }
+  };
 
-    const handleFormNextStep = () => {
-      console.log("formValue",formValue);
-      
-      const { isValid, errors } = isStepThreeValid(formValue);
-      if (isValid) {
-        const localData = {
-          ...formValue,
-          currentStep: 3,
-        };
-        localStorage.setItem('formData', JSON.stringify(localData));
-        handleNextStep();
-      } else {
-        handleError(errors);
-      }
-    };
+  const handleFormNextStep = () => {
+    const { isValid, errors } = isStepThreeValid(formValue);
+    if (isValid) {
+      const localData = {
+        ...formValue,
+        currentStep: 3,
+      };
+      localStorage.setItem('formData', JSON.stringify(localData)); 
+      handleNextStep();
+    } else {
+      handleError(errors);
+    }
+  };
 
-    return (
-          <motion.div
-          initial={{ opacity: 0, x: 100 }} 
-          animate={{ opacity: 1, x: 0 }}    
-          transition={{ duration: 1 }}      
-          >
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 1 }}
+    >
       <div className="bg-[#f3f4f6] h-screen w-screen flex justify-center items-center">
         <div className="flex flex-col w-[480px] min-h-[655px] p-8 bg-white rounded-lg">
           <div className="flex flex-col w-[100%] h-[129px] justify-between mb-[30px]">
@@ -97,11 +91,12 @@
                 placeholder="--/--/--"
                 type="date"
                 name="dateBirth"
-                value={formValue.dateBirth}
+                value={formValue.dateBirth || ''}
                 onChange={handleChange}
               />
               {errors.dateBirth && <p className="text-red-500 mt-[5px]">{errors.dateBirth}</p>}
             </div>
+
 
             <div>
               <label className="block text-sm font-semibold leading-4 text-[#334155] mb-[-5px]">
@@ -110,8 +105,7 @@
 
               {imagePreview ? (
                 <div className="flex justify-center items-center mt-2">
-                  <img src={imagePreview} alt="Profile Preview" className="w-[100%] h-[180px] object-cover rounded-md" 
-                  />
+                  <img src={imagePreview} alt="Profile Preview" className="w-[100%] h-[180px] object-cover rounded-md" />
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center gap-y-2 cursor-pointer bg-gray-100 h-[180px] border rounded-md border-solid mt-[8px]">
@@ -124,7 +118,6 @@
                     type="file"
                     name="profileImg"
                     accept="image/*"
-                    // value={imagePreview}
                     onChange={handleProfileImgChange}
                   />
                   <h4>Browse or Drop Image</h4>
@@ -132,6 +125,7 @@
               )}
               {errors.profileImg && <p className="text-red-500 mt-[5px]">{errors.profileImg}</p>}
             </div>
+
 
             <div className="flex w-full gap-x-2 mt-[70px]">
               <button onClick={handleBackStep} className="flex items-center justify-center w-32 gap-x-3 rounded-md border border-[#CBD5E1] transition-all duration-300 hover:bg-gray-100">
@@ -144,6 +138,6 @@
           </div>
         </div>
       </div>
-      </motion.div>
-    );
-  };
+    </motion.div>
+  );
+};
