@@ -24,7 +24,6 @@ export const SecondStep = (props) => {
       };
       localStorage.setItem("formData", JSON.stringify(localData))
       console.log("in step two", formValue);
-      
       handleNextStep();
     } else {
       handleError(errors);
